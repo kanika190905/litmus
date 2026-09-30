@@ -178,6 +178,11 @@ otherwise equivalent versions.
 
 Tested on Windows 11, Python 3.12, CPU only (Intel i5-13500H, 16 GB RAM).
 
+**Windows, no typing:** double-click `setup_windows.bat` once (installs everything into
+`.venv`), then `run_demo.bat` (starts the web demo and opens the browser) or `run_tests.bat`.
+
+**Any OS, manually:**
+
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate    Linux/macOS: source .venv/bin/activate
