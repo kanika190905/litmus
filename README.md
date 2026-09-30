@@ -254,9 +254,9 @@ python scripts/run_mteb_eval.py --dense-only   # official template with an AbsEn
 python docs/make_figures.py          # charts from results/*.json
 ```
 
-**Faster official run on a free Kaggle GPU:** upload `dist/litmus_source.zip` (or point
-`REPO_URL` at this repository) into `kaggle/litmus_official_eval.ipynb`, enable GPU + Internet,
-and choose *Run All* (~45-75 min). The GPU only accelerates this one-off bulk embedding. The
+**Faster official run on a free Kaggle GPU:** import `kaggle/litmus_official_eval.ipynb` into a
+Kaggle notebook (it clones this repository), enable GPU + Internet, and choose *Run All*
+(~45-75 min). The GPU only accelerates this one-off bulk embedding. The
 model and fp32 precision are unchanged, so the numbers match a CPU run. The product itself
 targets CPU (`LITMUS_DEVICE` defaults to `cpu`).
 

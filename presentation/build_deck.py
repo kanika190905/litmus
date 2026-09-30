@@ -365,7 +365,7 @@ def build(template: str, out: str) -> None:
         ("Evolution-aware ranking", "Near-identical versions are separated by behaviour, not text; regressions drop below correct versions."),
         ("CPU-first, measured", "bf16 -> fp32, batch-1 (2.7x), persistent sandbox workers (ms per check); int8 rejected on measured fidelity."),
         ("Robust to real data", "Russian statements, AtCoder/Codeforces/CodeChef formats, Python-2 and function-body snippets, numpy."),
-        ("Honest and reproducible", "Official MTEB path (AbsEncoder + SearchProtocol), every number scripted, pending items labelled, AI disclosure."),
+        ("Honest and reproducible", "Official results produced by mteb.evaluate (AbsEncoder + SearchProtocol) and published; every number comes from a script in the repo."),
     ]
     for i, (t, txt) in enumerate(diff_cards):
         card(s, 0.75 + (i % 3) * 4.0, 1.75 + (i // 3) * 2.55, 3.75, 2.35, t, [txt], size=14.5, title_size=17,
