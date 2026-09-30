@@ -390,6 +390,16 @@ def build(template: str, out: str) -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--template", default=os.path.join(os.path.dirname(ROOT), "CollegeName_TeamName_Submission.pptx"))
-    ap.add_argument("--out", default=os.path.join(ROOT, "presentation", "Litmus_PRISM_Submission.pptx"))
+    ap.add_argument("--out", default=None)
     a = ap.parse_args()
-    build(a.template, a.out)
+    out = a.out
+    if out is None:
+        # The official template is named CollegeName_TeamName_Submission.pptx; follow that
+        # convention as soon as presentation/team.json has the real names.
+        college, team = TEAM.get("college", FILL), TEAM.get("team_name", FILL)
+        if FILL not in (college, team):
+            clean = lambda x: "".join(ch for ch in x.title() if ch.isalnum())
+            out = os.path.join(ROOT, "presentation", "%s_%s_Submission.pptx" % (clean(college), clean(team)))
+        else:
+            out = os.path.join(ROOT, "presentation", "Litmus_PRISM_Submission.pptx")
+    build(a.template, out)
