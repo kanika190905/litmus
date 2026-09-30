@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.litmus/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+results/mteb_predictions/
+.DS_Store
+~$*

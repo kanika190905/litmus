@@ -1,0 +1,33 @@
+{
+ "queries_total": 3765,
+ "queries_with_examples": 3699,
+ "avg_examples": 2.127,
+ "query_kinds": {
+  "task_with_examples": 3699,
+  "function_task": 27,
+  "task_spec": 34,
+  "question": 5
+ },
+ "sampled_queries": 600,
+ "executions": 3600,
+ "seconds": 19.9,
+ "tiers": {
+  "gold": {
+   "pass_all": 555,
+   "pass_partial": 21,
+   "wrong_answer": 16,
+   "error": 5,
+   "unverified": 3
+  },
+  "random": {
+   "error": 1580,
+   "wrong_answer": 1382,
+   "unverified": 24,
+   "pass_partial": 14
+  }
+ },
+ "pass_all_rate": {
+  "gold": 0.925,
+  "random": 0.0
+ }
+}

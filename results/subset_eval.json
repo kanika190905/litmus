@@ -1,0 +1,1301 @@
+{
+ "setup": {
+  "queries": 200,
+  "corpus": 1000,
+  "model": "codefuse-ai/F2LLM-v2-0.6B",
+  "fusion_params": {
+   "temperature": 0.02,
+   "llr": {
+    "pass_all": 7.0,
+    "pass_partial": 1.5,
+    "unverified": 0.0,
+    "wrong_answer": -2.0,
+    "error": -3.0
+   }
+  },
+  "note": "subset of CoIR-apps test split; not the official full-corpus score",
+  "query_kinds": {
+   "task_with_examples": 197,
+   "question": 1,
+   "task_spec": 1,
+   "function_task": 1
+  }
+ },
+ "runs": {
+  "dense_only": {
+   "ndcg_at_10": 0.96917,
+   "mrr_at_10": 0.96208,
+   "recall_at_1": 0.94,
+   "recall_at_10": 0.99,
+   "recall_at_50": 0.995,
+   "n_queries": 200,
+   "seconds_total": 0.11,
+   "executions": 0,
+   "gold_verification_tiers": {
+    "not_verified": 200
+   },
+   "stage_seconds": {
+    "analyse+embed": 0.05,
+    "dense": 0.01,
+    "verify": 0.0,
+    "fuse": 0.04
+   }
+  },
+  "verify_top20": {
+   "ndcg_at_10": 0.98881,
+   "mrr_at_10": 0.98667,
+   "recall_at_1": 0.98,
+   "recall_at_10": 0.995,
+   "recall_at_50": 0.995,
+   "n_queries": 200,
+   "seconds_total": 26.76,
+   "executions": 3940,
+   "gold_verification_tiers": {
+    "pass_all": 173,
+    "error": 5,
+    "pass_partial": 8,
+    "wrong_answer": 8,
+    "not_verified": 4,
+    "unverified": 2
+   },
+   "stage_seconds": {
+    "analyse+embed": 0.05,
+    "dense": 0.01,
+    "verify": 26.67,
+    "fuse": 0.04
+   }
+  },
+  "verify_top20_expand30 (Litmus)": {
+   "ndcg_at_10": 0.98881,
+   "mrr_at_10": 0.98667,
+   "recall_at_1": 0.98,
+   "recall_at_10": 0.995,
+   "recall_at_50": 0.995,
+   "n_queries": 200,
+   "seconds_total": 5.4,
+   "executions": 4630,
+   "gold_verification_tiers": {
+    "pass_all": 173,
+    "error": 5,
+    "pass_partial": 8,
+    "wrong_answer": 8,
+    "not_verified": 4,
+    "unverified": 2
+   },
+   "stage_seconds": {
+    "analyse+embed": 0.04,
+    "dense": 0.01,
+    "verify": 5.29,
+    "fuse": 0.05
+   }
+  }
+ },
+ "movement": {
+  "gold_moved_up": 9,
+  "gold_moved_down": 0,
+  "gold_at_1_dense": 188,
+  "gold_at_1_litmus": 196
+ },
+ "per_query": {
+  "q5017": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1631
+  },
+  "q5050": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 564
+  },
+  "q5093": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 808
+  },
+  "q5154": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1605
+  },
+  "q5161": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1117
+  },
+  "q5191": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1401
+  },
+  "q5198": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2015
+  },
+  "q5204": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2549
+  },
+  "q5238": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1429
+  },
+  "q5242": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2026
+  },
+  "q5243": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 851
+  },
+  "q5245": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2027
+  },
+  "q5249": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1654
+  },
+  "q5254": {
+   "dense_rank": 2,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1845
+  },
+  "q5258": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1363
+  },
+  "q5267": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 787
+  },
+  "q5282": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1416
+  },
+  "q5287": {
+   "dense_rank": 2,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1196
+  },
+  "q5297": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "error",
+   "query_chars": 2440
+  },
+  "q5300": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1831
+  },
+  "q5318": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 884
+  },
+  "q5331": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1365
+  },
+  "q5336": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 680
+  },
+  "q5340": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1294
+  },
+  "q5353": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3089
+  },
+  "q5372": {
+   "dense_rank": 2,
+   "litmus_rank": 2,
+   "gold_tier": "error",
+   "query_chars": 2161
+  },
+  "q5384": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1210
+  },
+  "q5386": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3470
+  },
+  "q5400": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1098
+  },
+  "q5423": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2244
+  },
+  "q5480": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1994
+  },
+  "q5483": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 1640
+  },
+  "q5484": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2413
+  },
+  "q5508": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 2397
+  },
+  "q5530": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 370
+  },
+  "q5546": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 1041
+  },
+  "q5561": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1269
+  },
+  "q5591": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2079
+  },
+  "q5597": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1110
+  },
+  "q5618": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1046
+  },
+  "q5619": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1609
+  },
+  "q5620": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2237
+  },
+  "q5623": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1365
+  },
+  "q5676": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2651
+  },
+  "q5682": {
+   "dense_rank": 2,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1762
+  },
+  "q5689": {
+   "dense_rank": 2,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1122
+  },
+  "q5722": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1403
+  },
+  "q5737": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 906
+  },
+  "q5741": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1878
+  },
+  "q5747": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1748
+  },
+  "q5770": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 807
+  },
+  "q5844": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1336
+  },
+  "q5880": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1071
+  },
+  "q5894": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1573
+  },
+  "q5906": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1612
+  },
+  "q5915": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 1651
+  },
+  "q5946": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1692
+  },
+  "q5951": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2371
+  },
+  "q5956": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1795
+  },
+  "q5986": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1307
+  },
+  "q6000": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2409
+  },
+  "q6015": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3035
+  },
+  "q6018": {
+   "dense_rank": 4,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1269
+  },
+  "q6077": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1644
+  },
+  "q6106": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1690
+  },
+  "q6139": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1627
+  },
+  "q6141": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1391
+  },
+  "q6155": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2535
+  },
+  "q6166": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 867
+  },
+  "q6178": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1063
+  },
+  "q6180": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1475
+  },
+  "q6187": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 800
+  },
+  "q6228": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 462
+  },
+  "q6230": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1720
+  },
+  "q6264": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2030
+  },
+  "q6269": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1059
+  },
+  "q6286": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1880
+  },
+  "q6287": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2182
+  },
+  "q6327": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 487
+  },
+  "q6394": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1983
+  },
+  "q6402": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1751
+  },
+  "q6407": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1275
+  },
+  "q6422": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2999
+  },
+  "q6435": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 1613
+  },
+  "q6456": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 1988
+  },
+  "q6470": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 1781
+  },
+  "q6482": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 766
+  },
+  "q6498": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1427
+  },
+  "q6513": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 864
+  },
+  "q6526": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1460
+  },
+  "q6559": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1247
+  },
+  "q6581": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1297
+  },
+  "q6602": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 2155
+  },
+  "q6618": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1969
+  },
+  "q6625": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1531
+  },
+  "q6630": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2557
+  },
+  "q6646": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1622
+  },
+  "q6702": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2386
+  },
+  "q6713": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1597
+  },
+  "q6717": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1345
+  },
+  "q6728": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1853
+  },
+  "q6739": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1595
+  },
+  "q6752": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2049
+  },
+  "q6764": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1373
+  },
+  "q6777": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2054
+  },
+  "q6826": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1751
+  },
+  "q6839": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3614
+  },
+  "q6840": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2686
+  },
+  "q6857": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2263
+  },
+  "q6869": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2091
+  },
+  "q6892": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2088
+  },
+  "q6908": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2599
+  },
+  "q6942": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1218
+  },
+  "q6987": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1441
+  },
+  "q7003": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2283
+  },
+  "q7023": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 2122
+  },
+  "q7028": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1444
+  },
+  "q7034": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 5080
+  },
+  "q7035": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2035
+  },
+  "q7079": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "error",
+   "query_chars": 1504
+  },
+  "q7097": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 2100
+  },
+  "q7152": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 2353
+  },
+  "q7178": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 869
+  },
+  "q7190": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1110
+  },
+  "q7195": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2077
+  },
+  "q7215": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1797
+  },
+  "q7244": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3145
+  },
+  "q7251": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3509
+  },
+  "q7254": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2073
+  },
+  "q7258": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1489
+  },
+  "q7281": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2093
+  },
+  "q7286": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3016
+  },
+  "q7295": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2793
+  },
+  "q7312": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1906
+  },
+  "q7317": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2325
+  },
+  "q7339": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2561
+  },
+  "q7340": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "wrong_answer",
+   "query_chars": 2509
+  },
+  "q7348": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2207
+  },
+  "q7353": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 3302
+  },
+  "q7364": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 758
+  },
+  "q7368": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "error",
+   "query_chars": 1010
+  },
+  "q7376": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1205
+  },
+  "q7383": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1600
+  },
+  "q7388": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 867
+  },
+  "q7399": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2481
+  },
+  "q7414": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 3930
+  },
+  "q7435": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1437
+  },
+  "q7495": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 444
+  },
+  "q7498": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1678
+  },
+  "q7503": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1804
+  },
+  "q7536": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2187
+  },
+  "q7570": {
+   "dense_rank": 2,
+   "litmus_rank": 2,
+   "gold_tier": "error",
+   "query_chars": 2388
+  },
+  "q7584": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1500
+  },
+  "q7617": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2340
+  },
+  "q7651": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2377
+  },
+  "q7667": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2961
+  },
+  "q7698": {
+   "dense_rank": 16,
+   "litmus_rank": 3,
+   "gold_tier": "pass_all",
+   "query_chars": 356
+  },
+  "q7721": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": null,
+   "query_chars": 216
+  },
+  "q7738": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "unverified",
+   "query_chars": 2565
+  },
+  "q7739": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1422
+  },
+  "q7787": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1568
+  },
+  "q7791": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2630
+  },
+  "q7794": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2332
+  },
+  "q7797": {
+   "dense_rank": 2,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1094
+  },
+  "q7848": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "unverified",
+   "query_chars": 2925
+  },
+  "q7856": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1181
+  },
+  "q7864": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1371
+  },
+  "q7874": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2684
+  },
+  "q7894": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1538
+  },
+  "q7917": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1145
+  },
+  "q7936": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2043
+  },
+  "q7988": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_partial",
+   "query_chars": 2804
+  },
+  "q7995": {
+   "dense_rank": 6,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2171
+  },
+  "q8025": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1635
+  },
+  "q8102": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2121
+  },
+  "q8132": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 691
+  },
+  "q8147": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": null,
+   "query_chars": 723
+  },
+  "q8184": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 903
+  },
+  "q8195": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1882
+  },
+  "q8233": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 869
+  },
+  "q8254": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 797
+  },
+  "q8265": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1557
+  },
+  "q8343": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 844
+  },
+  "q8352": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1394
+  },
+  "q8356": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 949
+  },
+  "q8364": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 801
+  },
+  "q8367": {
+   "dense_rank": 2,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 804
+  },
+  "q8387": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2299
+  },
+  "q8405": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 980
+  },
+  "q8441": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1259
+  },
+  "q8517": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": null,
+   "query_chars": 704
+  },
+  "q8539": {
+   "dense_rank": 99,
+   "litmus_rank": 99,
+   "gold_tier": null,
+   "query_chars": 1016
+  },
+  "q8570": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 2099
+  },
+  "q8585": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 427
+  },
+  "q8586": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1208
+  },
+  "q8619": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1152
+  },
+  "q8622": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1058
+  },
+  "q8634": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 1109
+  },
+  "q8727": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 954
+  },
+  "q8756": {
+   "dense_rank": 1,
+   "litmus_rank": 1,
+   "gold_tier": "pass_all",
+   "query_chars": 911
+  }
+ }
+}

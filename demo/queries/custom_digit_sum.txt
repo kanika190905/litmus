@@ -1,0 +1,22 @@
+You are given a positive integer n. Print the sum of its decimal digits.
+
+-----Input-----
+
+The only line contains one integer n (1 <= n <= 10^18).
+
+-----Output-----
+
+Print one integer - the sum of the digits of n.
+
+-----Examples-----
+Input
+123
+
+Output
+6
+
+Input
+9005
+
+Output
+14

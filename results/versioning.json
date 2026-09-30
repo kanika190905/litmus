@@ -1,0 +1,100 @@
+{
+ "v1": {
+  "store": "apps-demo",
+  "version": "v1",
+  "diff": {
+   "added": 1000,
+   "removed": 0,
+   "modified": 0,
+   "unchanged": 0
+  },
+  "register_s": 0.027,
+  "newly_embedded": 0,
+  "index_build_s": 0.079,
+  "snippets": 1000,
+  "wall_s": 0.12
+ },
+ "v2": {
+  "store": "apps-demo",
+  "version": "v2",
+  "diff": {
+   "added": 0,
+   "removed": 5,
+   "modified": 50,
+   "unchanged": 945
+  },
+  "register_s": 0.011,
+  "newly_embedded": 50,
+  "index_build_s": 295.461,
+  "snippets": 995,
+  "wall_s": 295.48
+ },
+ "v3": {
+  "store": "apps-demo",
+  "version": "v3",
+  "diff": {
+   "added": 0,
+   "removed": 0,
+   "modified": 8,
+   "unchanged": 987
+  },
+  "register_s": 0.019,
+  "newly_embedded": 0,
+  "index_build_s": 0.05,
+  "snippets": 995,
+  "wall_s": 0.07
+ },
+ "all_versions_view_s": 0.95,
+ "bugs": {
+  "d5287": {
+   "query": "q5287",
+   "mutation": "constant 2 -> 3"
+  },
+  "d5689": {
+   "query": "q5689",
+   "mutation": "constant 5 -> 6"
+  },
+  "d5880": {
+   "query": "q5880",
+   "mutation": "operator Sub -> Add"
+  },
+  "d5986": {
+   "query": "q5986",
+   "mutation": "operator Sub -> Add"
+  },
+  "d6178": {
+   "query": "q6178",
+   "mutation": "operator Add -> Sub"
+  },
+  "d8356": {
+   "query": "q8356",
+   "mutation": "comparison LtE -> Lt"
+  },
+  "d8364": {
+   "query": "q8364",
+   "mutation": "operator FloorDiv -> Mult"
+  },
+  "d8586": {
+   "query": "q8586",
+   "mutation": "operator Sub -> Add"
+  },
+  "d8622": {
+   "query": "q8622",
+   "mutation": "operator Sub -> Add"
+  },
+  "d8756": {
+   "query": "q8756",
+   "mutation": "constant 4 -> 5"
+  }
+ },
+ "fixed_in_v3": [
+  "d5287",
+  "d5689",
+  "d5880",
+  "d5986",
+  "d6178",
+  "d8356",
+  "d8364",
+  "d8586"
+ ]
+}

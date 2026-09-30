@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "litmus-retrieval"
+version = "1.0.0"
+description = "Litmus: execution-verified, version-aware code retrieval (Samsung PRISM GenAI Hackathon, Theme 1)"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT" }
+dependencies = [
+    "torch>=2.4",
+    "sentence-transformers>=5.0",
+    "transformers>=4.51",
+    "mteb>=2.21",
+    "datasets>=3.0",
+    "numpy>=1.26",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+litmus = "litmus.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+litmus = ["web/*.html", "*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

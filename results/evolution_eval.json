@@ -1,0 +1,55 @@
+{
+ "setup": {
+  "lineages": 100,
+  "items_in_all_versions_view": 1199,
+  "all_versions_view_build_s": 507.75,
+  "relevance": "original(v1)=1, refactor(v3)=1, regression mutant(v2)=0"
+ },
+ "runs": {
+  "dense_only": {
+   "ndcg_at_10": 0.79441,
+   "mrr_at_10": 0.81867,
+   "recall_at_1": 0.325,
+   "recall_at_10": 0.95,
+   "recall_at_50": 0.995,
+   "n_queries": 100,
+   "correct_version_at_1": 0.65,
+   "regression_ranked_above_correct": 0.3,
+   "seconds": 0.13
+  },
+  "litmus_exec_verified": {
+   "ndcg_at_10": 0.9085,
+   "mrr_at_10": 0.94167,
+   "recall_at_1": 0.445,
+   "recall_at_10": 0.985,
+   "recall_at_50": 0.995,
+   "n_queries": 100,
+   "correct_version_at_1": 0.89,
+   "regression_ranked_above_correct": 0.1,
+   "seconds": 11.32,
+   "mutants_failing_sample_tests": 0.79
+  }
+ },
+ "mutations": {
+  "d5017": "constant 0 -> 1",
+  "d5050": "constant 0 -> 1",
+  "d5093": "operator Mult -> FloorDiv",
+  "d5154": "operator Mult -> FloorDiv",
+  "d5161": "constant 1 -> 2",
+  "d5191": "comparison Eq -> NotEq",
+  "d5198": "comparison Eq -> NotEq",
+  "d5204": "constant 0 -> 1",
+  "d5238": "comparison Eq -> NotEq",
+  "d5242": "comparison Lt -> LtE",
+  "d5243": "constant 1 -> 2",
+  "d5245": "constant 2 -> 3",
+  "d5249": "operator Mult -> FloorDiv",
+  "d5254": "constant 3 -> 4",
+  "d5258": "operator Add -> Sub",
+  "d5267": "constant 1 -> 2",
+  "d5282": "operator Sub -> Add",
+  "d5287": "operator Add -> Sub",
+  "d5297": "constant 0 -> 1",
+  "d5300": "constant 0 -> 1"
+ }
+}
