@@ -28,9 +28,16 @@ _SAMPLE_IN_RE = re.compile(r"^(?:sample|example)\s*(?:test\s*)?input\b|^прим
 _SAMPLE_OUT_RE = re.compile(r"^(?:sample|example)\s*(?:test\s*)?output\b|^пример\s+выходных", re.I)
 _EXAMPLES_RE = re.compile(r"^(?:examples?|samples?|sample\s+tests?|примеры?|test\s+data)\b", re.I)
 
-# Inside an "Examples" block the cases are introduced by bare marker lines.
-_IN_MARKER_RE = re.compile(r"^\s*(?:input|sample input|входные данные)\s*(?:\d+)?\s*:?\s*$", re.I)
-_OUT_MARKER_RE = re.compile(r"^\s*(?:output|sample output|выходные данные)\s*(?:\d+)?\s*:?\s*$", re.I)
+# Inside an "Examples" block the cases are introduced by bare marker lines.  Text copied
+# from the Codeforces website pastes the copy buttons too ("InputCopy" / "OutputCopy").
+_IN_MARKER_RE = re.compile(r"^\s*(?:input|sample input|входные данные)\s*(?:\d+)?\s*(?:copy)?\s*:?\s*$", re.I)
+_OUT_MARKER_RE = re.compile(r"^\s*(?:output|sample output|выходные данные)\s*(?:\d+)?\s*(?:copy)?\s*:?\s*$", re.I)
+
+# Statements pasted from a judge's web page have no "-----" rules at all.
+_PLAIN_EXAMPLES_RE = re.compile(r"^[ \t]*(?:examples?|samples?|sample\s+tests?|примеры?|пример)[ \t]*:?[ \t]*$", re.I | re.M)
+_PLAIN_END_RE = re.compile(r"^[ \t]*(?:notes?|explanation|примечание)[ \t]*:?[ \t]*$", re.I | re.M)
+_PLAIN_SAMPLE_RE = re.compile(r"^[ \t]*(?:sample|example)[ \t]+(input|output)[ \t]*(\d*)[ \t]*(?:copy)?[ \t]*:?[ \t]*$", re.I | re.M)
+_COPY_LINE_RE = re.compile(r"^[ \t]*copy[ \t]*$", re.I | re.M)
 
 # LeetCode-style "Example 1:\nInput: a = [1,2]\nOutput: 3" (function-call tasks).
 _FUNC_EXAMPLE_RE = re.compile(r"^\s*Input\s*:\s*(.+?)\s*$\s*^\s*Output\s*:\s*(.+?)\s*$", re.M)
@@ -132,6 +139,34 @@ def _parse_examples_block(body: str) -> list[Example]:
     return examples
 
 
+def _extract_plain(text: str) -> list[Example]:
+    """Examples from a statement copied off a judge's web page (no '-----' rules)."""
+    t = _COPY_LINE_RE.sub("", text.replace("\r\n", "\n"))
+    # AtCoder web: "Sample Input 1" / "Sample Output 1" lines.
+    heads = list(_PLAIN_SAMPLE_RE.finditer(t))
+    if heads:
+        examples, pending = [], None
+        for i, m in enumerate(heads):
+            body = t[m.end() : heads[i + 1].start() if i + 1 < len(heads) else len(t)]
+            if m.group(1).lower() == "input":
+                pending = _clean_block(body, stop_at_blank=False)
+            elif pending:
+                out = _clean_block(body, stop_at_blank=True)
+                if out.strip():
+                    examples.append(Example(pending + "\n", out))
+                pending = None
+        if examples:
+            return examples
+    # Codeforces web: a bare "Example(s)" line, then Input/Output blocks, then "Note".
+    last = None
+    for last in _PLAIN_EXAMPLES_RE.finditer(t):
+        pass
+    if last is None:
+        return []
+    end = _PLAIN_END_RE.search(t, last.end())
+    return _parse_examples_block(t[last.end() : end.start() if end else len(t)])
+
+
 def extract_examples(text: str) -> list[Example]:
     """Extract stdin/stdout sample tests from a problem statement."""
     sections = _split_sections(text)
@@ -148,6 +183,8 @@ def extract_examples(text: str) -> list[Example]:
             pending_input = None
         elif _EXAMPLES_RE.match(header):
             examples.extend(_parse_examples_block(body))
+    if not examples:
+        examples = _extract_plain(text)
     # De-duplicate while preserving order.
     seen, uniq = set(), []
     for ex in examples:
@@ -194,7 +231,7 @@ def analyze_query(text: str) -> QueryProfile:
         text=text,
         kind=kind,
         language=language,
-        platform=_platform(text, headers),
+        platform=_platform(text, headers) if headers or not examples else "judge-web-copy",
         examples=examples,
         function_examples=func_examples,
         sections={h: b for h, b in sections if h},

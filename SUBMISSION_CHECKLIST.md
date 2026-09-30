@@ -2,7 +2,7 @@
 
 | Item | Status | Where / what remains |
 |---|---|---|
-| **Source code** | Ready | `src/litmus`, `scripts/`, `tests/`; `pytest -q` passes (14 tests) |
+| **Source code** | Ready | `src/litmus`, `scripts/`, `tests/`; `pytest -q` passes (16 tests) |
 | **README** (reproducible setup) | Ready | `README.md` |
 | **Presentation** (official template) | Ready, team fields to fill | `presentation/Litmus_PRISM_Submission.pptx` (+ PDF). Put your Theme ID, team, college, members, GitHub and video links in `presentation/team.json`, then run `python presentation/build_deck.py` (and re-export the PDF from PowerPoint) |
 | **Demo video** (max 5 min) | **Team to record** | Follow `docs/DEMO_SCRIPT.md`; upload to YouTube/Drive; put the link in README + slide 11 |

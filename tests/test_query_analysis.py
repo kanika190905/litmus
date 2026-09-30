@@ -79,3 +79,55 @@ def test_categories():
     assert analyze_query("How is the input preprocessed before the main function?").kind == "question"
     lc = "Given nums, return the sum.\nExample 1:\nInput: nums = [1,2]\nOutput: 3\n"
     assert analyze_query(lc).kind == "function_task"
+
+
+CODEFORCES_WEB = """B. Minus Two
+time limit per test2 seconds
+memory limit per test256 megabytes
+You are given an array a1,a2,...,an. For all indices i, set ai=|ai-2|.
+Find the maximum possible frequency of any integer.
+Input
+The first line contains a single integer t - the number of test cases.
+Output
+For each test case, output one integer.
+Example
+InputCopy
+2
+3
+1 3 5
+2
+4 4
+OutputCopy
+2
+2
+Note
+In the first test case ...
+"""
+
+ATCODER_WEB = """Problem Statement
+Given N, print 2N.
+Sample Input 1
+Copy
+3
+Sample Output 1
+Copy
+6
+
+Twice 3 is 6.
+Sample Input 2
+10
+Sample Output 2
+20
+"""
+
+
+def test_codeforces_web_copy_paste():
+    ex = extract_examples(CODEFORCES_WEB)
+    assert [(e.input, e.output) for e in ex] == [("2\n3\n1 3 5\n2\n4 4\n", "2\n2")]
+    p = analyze_query(CODEFORCES_WEB)
+    assert p.kind == "task_with_examples" and p.platform == "judge-web-copy"
+
+
+def test_atcoder_web_copy_paste():
+    ex = extract_examples(ATCODER_WEB)
+    assert [(e.input.strip(), e.output) for e in ex] == [("3", "6"), ("10", "20")]

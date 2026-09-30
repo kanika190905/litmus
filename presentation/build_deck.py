@@ -169,6 +169,7 @@ def build(template: str, out: str) -> None:
     evo = load("evolution_eval.json")
     ver = load("versioning.json")
     mteb_full = load("appsretrieval_results.json")
+    feas = load("exec_feasibility.json")
 
     # 1. Title - fill the template's own fields (placeholders for team data)
     s = S[0]
@@ -206,7 +207,8 @@ def build(template: str, out: str) -> None:
         "3,765 test queries = full competitive-programming statements (median 458 tokens; 17 in Russian)",
         "8,765 Python solutions (5,000 belong to train problems = distractors)",
         "exactly 1 relevant snippet per query; identifiers carry almost no signal",
-        "Key observation: 98.2% of test queries contain sample tests (Input -> Output)",
+        "Key observation: %s of test queries contain sample tests (Input -> Output)" % (
+            pct(feas["queries_with_examples"] / feas["queries_total"]) if feas else "98%"),
         "-> a candidate can be executed and checked, not just compared",
     ], size=15, title_size=17)
 
@@ -340,7 +342,9 @@ def build(template: str, out: str) -> None:
     body(s).text_frame.text = ""
     body(s).width = Inches(0.1)
     diff_cards = [
-        ("Verify, don't just match", "Executes candidates on the query's own examples. Gold solution passes all its examples in 92.5% of 600 sampled test queries; 0 of 3,000 random snippets do."),
+        ("Verify, don't just match", "Executes candidates on the query's own examples. Gold solution passes all its examples in %s of %d sampled test queries; %d of %s random snippets do." % (
+            pct(feas["pass_all_rate"]["gold"]), feas["sampled_queries"], feas["tiers"]["random"].get("pass_all", 0),
+            format(sum(feas["tiers"]["random"].values()), ",")) if feas else "pending"),
         ("Versions by construction", "Git-tree-like manifests + content-addressed vectors and execution results: a new version costs only what changed; reverts cost nothing."),
         ("Evolution-aware ranking", "Near-identical versions are separated by behaviour, not text; regressions drop below correct versions."),
         ("CPU-first, measured", "bf16 -> fp32, batch-1 (2.7x), persistent sandbox workers (ms per check); int8 rejected on measured fidelity."),

@@ -1,33 +1,34 @@
 {
  "queries_total": 3765,
- "queries_with_examples": 3699,
+ "queries_with_examples": 3703,
  "avg_examples": 2.127,
  "query_kinds": {
-  "task_with_examples": 3699,
+  "task_with_examples": 3703,
   "function_task": 27,
-  "task_spec": 34,
+  "task_spec": 30,
   "question": 5
  },
  "sampled_queries": 600,
  "executions": 3600,
- "seconds": 19.9,
+ "seconds": 7.5,
  "tiers": {
   "gold": {
-   "pass_all": 555,
-   "pass_partial": 21,
-   "wrong_answer": 16,
+   "pass_partial": 27,
+   "pass_all": 545,
+   "wrong_answer": 19,
    "error": 5,
-   "unverified": 3
+   "unverified": 4
   },
   "random": {
-   "error": 1580,
-   "wrong_answer": 1382,
+   "error": 1569,
+   "wrong_answer": 1395,
    "unverified": 24,
-   "pass_partial": 14
+   "pass_partial": 11,
+   "pass_all": 1
   }
  },
  "pass_all_rate": {
-  "gold": 0.925,
-  "random": 0.0
+  "gold": 0.9083,
+  "random": 0.0003
  }
 }

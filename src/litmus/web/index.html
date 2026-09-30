@@ -162,8 +162,15 @@ function render(res, dense){
     <div><div class="n">${Math.round(t.verify)}<small> ms</small></div><div class="l">verify ${st.verified} candidates${st.expanded ? " (expanded)" : ""}</div></div>
     <div><div class="n">${tiers.pass_all || 0}</div><div class="l">pass all examples</div></div>
     <div><div class="n">${Math.round(t.total)}<small> ms</small></div><div class="l">total</div></div></div>
-    <div class="muted">view <span class="id">${esc(st.view)}</span> · wrong-answer ${tiers.wrong_answer||0} · runtime-error ${tiers.error||0} · can't-run ${tiers.unverified||0}</div>${denseLine}`;
+    <div class="muted">view <span class="id">${esc(st.view)}</span> · wrong-answer ${tiers.wrong_answer||0} · runtime-error ${tiers.error||0} · can't-run ${tiers.unverified||0}</div>${denseLine}${notice(p, st, tiers)}`;
   $("results").innerHTML = res.hits.map((h, i) => hitHTML(h, res.gold, i === 0)).join("") || `<div class="empty">No results</div>`;
+}
+function notice(p, st, tiers){
+  const box = (bg, fg, msg) => `<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:${bg};color:${fg};font-size:13.5px">${msg}</div>`;
+  if(!p.verifiable) return box("var(--unkbg)", "var(--ink)", "<b>No sample tests found in this query</b> — results are ranked by meaning (semantic similarity) only and are not executed. Include the problem's Input/Output examples to enable verification.");
+  if(st.verified > 0 && !(tiers.pass_all > 0)) return box("var(--warnbg)", "var(--warn)", `<b>None of the ${st.verified} verified candidates reproduces the examples</b> — this library most likely does not contain a solution to this exact task. Showing the closest matches.`);
+  if(tiers.pass_all > 0) return box("var(--okbg)", "var(--ok)", `<b>${tiers.pass_all} candidate${tiers.pass_all > 1 ? "s" : ""} reproduce${tiers.pass_all > 1 ? "" : "s"} every example</b> — ranked first.`);
+  return "";
 }
 function hitHTML(h, gold, open){
   const v = h.verification, tier = v ? v.tier : "none";

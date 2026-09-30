@@ -8,7 +8,7 @@
 
 Litmus treats retrieval as *search followed by verification*. A dense retriever finds a
 short-list, and then Litmus **checks** each candidate: when the query contains sample
-tests (98% of CoIR-apps test queries do), the candidates are executed on those examples
+tests (98.4% of CoIR-apps test queries do), the candidates are executed on those examples
 in a sandbox. The evidence is fused into the ranking. A snippet that reproduces the
 expected outputs is promoted; a look-alike that crashes or prints the wrong answer is
 demoted. This also handles the hard part of the Bonus goal: two versions of a snippet
@@ -88,7 +88,7 @@ CodeChef / HackerRank / LeetCode), and **extracts the sample tests**. The extrac
 `Examples` blocks, `Sample Input/Output` sections (numbered or not), AtCoder
 explanations after the output, and Russian `Примеры` blocks. It deliberately does *not*
 treat the Russian `Входные данные` *format* header as a sample. Coverage on the
-CoIR-apps test split: **3,699 / 3,765 queries (98.2%)**, 2.13 examples on average.
+CoIR-apps test split: **3,703 / 3,765 queries (98.4%)**, 2.13 examples on average.
 
 ### Pass 1: dense recall
 [`codefuse-ai/F2LLM-v2-0.6B`](https://huggingface.co/codefuse-ai/F2LLM-v2-0.6B)
@@ -150,8 +150,8 @@ priors `pass_all +7, pass_partial +1.5, unverified 0, wrong_answer -2, error -3`
 (`src/litmus/verify.py`). They were set by hand and **never tuned on retrieval rankings**. For
 full transparency: they were chosen after an execution-only feasibility study on 600 randomly
 sampled test queries (`scripts/exec_feasibility.py`, `results/exec_feasibility.json`). That
-study ran each gold snippet and five random snippets on the sample tests: **92.5% of gold
-snippets pass all examples, versus 0 of 3,000 random snippets**. Fitting the weights on the
+study ran each gold snippet and five random snippets on the sample tests: **90.8% of gold
+snippets pass all examples, versus 1 of 3,000 random snippets**. Fitting the weights on the
 train split is future work. Unverifiable snippets
 get exactly zero, so they are never punished for being old code. Queries without
 examples skip passes 2-3 and are ranked by the dense score alone.
@@ -183,7 +183,7 @@ python -m venv .venv
 # Windows: .venv\Scripts\activate    Linux/macOS: source .venv/bin/activate
 pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -e .[dev]
-pytest -q                                   # 14 tests, ~10 s, no model download needed
+pytest -q                                   # 16 tests, ~10 s, no model download needed
 ```
 
 The first run downloads F2LLM-v2-0.6B (~2.4 GB) and the CoIR-apps dataset from Hugging Face.
