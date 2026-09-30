@@ -26,6 +26,8 @@ PURPLE, GREY, INK, TINT, TEAL, BLUE = (RGBColor(0x70, 0x4E, 0xA6), RGBColor(0x63
                                        RGBColor(0x1B, 0x1B, 0x2F), RGBColor(0xF3, 0xEF, 0xFA),
                                        RGBColor(0x2A, 0x9D, 0x8F), RGBColor(0x14, 0x28, 0xA0))
 FILL = "[TO FILL]"
+_TEAM_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "team.json")
+TEAM = json.load(open(_TEAM_PATH, encoding="utf-8")) if os.path.exists(_TEAM_PATH) else {}
 
 
 def load(name):
@@ -172,12 +174,13 @@ def build(template: str, out: str) -> None:
     s = S[0]
     for sh in s.shapes:
         if sh.has_text_frame and "Theme ID" in sh.text_frame.text:
+            m = (TEAM.get("members") or []) + [FILL] * 4
             fills = {
-                "Theme ID": " %s (Theme 1: Agentic Code Intelligence)" % FILL,
-                "Team Name": " " + FILL, "College Name": " " + FILL,
-                "Member Name & Email 1": " " + FILL, "Member Name & Email 2": " " + FILL,
-                "Member Name & Email 3": " " + FILL, "Member Name & Email 4": " " + FILL,
-                "Submission Github link": " " + FILL,
+                "Theme ID": " %s (Theme 1: Agentic Code Intelligence)" % TEAM.get("theme_id", FILL),
+                "Team Name": " " + TEAM.get("team_name", FILL), "College Name": " " + TEAM.get("college", FILL),
+                "Member Name & Email 1": " " + m[0], "Member Name & Email 2": " " + m[1],
+                "Member Name & Email 3": " " + m[2], "Member Name & Email 4": " " + m[3],
+                "Submission Github link": " " + TEAM.get("github_url", FILL),
             }
             for p in sh.text_frame.paragraphs:
                 key = p.text.strip().rstrip("-").strip()
@@ -351,9 +354,9 @@ def build(template: str, out: str) -> None:
     # 11. Checklist - keep template lines, fill Y/N
     s = S[10]
     answers = {
-        "Working prototype code": "Y - repository prepared; public link: " + FILL,
+        "Working prototype code": "Y - " + TEAM.get("github_url", FILL),
         "README with reproducible": "Y",
-        "Demo video": FILL + " (link after recording)",
+        "Demo video": TEAM.get("video_url", FILL),
         "Presentation file": "Y",
     }
     tf = body(s).text_frame
