@@ -128,9 +128,43 @@ def evolution_results():
     plt.close(fig)
 
 
+def official_results():
+    lit = os.path.join(ROOT, "results", "appsretrieval_results.json")
+    den = os.path.join(ROOT, "results", "appsretrieval_results_dense.json")
+    ref = os.path.join(ROOT, "results", "published_reference.json")
+    if not (os.path.exists(lit) and os.path.exists(den) and os.path.exists(ref)):
+        return
+    L = json.load(open(lit, encoding="utf-8"))["scores"]["test"][0]["ndcg_at_10"]
+    D = json.load(open(den, encoding="utf-8"))["scores"]["test"][0]["ndcg_at_10"]
+    R = json.load(open(ref, encoding="utf-8"))["ndcg_at_10"]
+    rows = [
+        ("F2LLM-v2-0.6B alone (our run)", D, GREY),
+        ("F2LLM-v2-4B (published)", R["codefuse-ai/F2LLM-v2-4B"], "#B9B9C8"),
+        ("F2LLM-v2-8B (published)", R["codefuse-ai/F2LLM-v2-8B"], "#B9B9C8"),
+        ("F2LLM-v2-14B (published)", R["codefuse-ai/F2LLM-v2-14B"], "#B9B9C8"),
+        ("Litmus: 0.6B + execution verification (ours)", L, PURPLE),
+    ]
+    fig, ax = plt.subplots(figsize=(8.6, 4.4), dpi=150)
+    ys = list(range(len(rows)))[::-1]
+    for y, (name, v, c) in zip(ys, rows):
+        ax.barh(y, v, color=c, height=0.62)
+        ax.text(v + 0.002, y, "%.4f" % v, va="center", fontsize=11, fontweight="bold" if c == PURPLE else None,
+                color=PURPLE if c == PURPLE else INK)
+    ax.set_yticks(ys)
+    ax.set_yticklabels([r[0] for r in rows], fontsize=10.5)
+    ax.set_xlim(0.88, 0.985)
+    ax.set_xlabel("NDCG@10 (axis starts at 0.88)", color=GREY)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.set_title("Official MTEB AppsRetrieval, full test split (3,765 queries, 8,765 snippets)", fontsize=11.5, color=GREY)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "official_results.png"), facecolor="white")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
     architecture()
     subset_results()
     evolution_results()
+    official_results()
     print("figures written to", OUT)

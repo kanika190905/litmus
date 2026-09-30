@@ -93,14 +93,19 @@ class Embedder:
         revision: str | None = DEFAULT_REVISION,
         cache_path: str | None = None,
         max_length: int = 1024,
-        batch_size: int = 1,
+        batch_size: int | None = None,
         backend: str = "torch",
         threads: int | None = None,
+        device: str | None = None,
     ):
         self.model_name = model_name
         self.revision = revision if model_name == DEFAULT_MODEL else None
         self.max_length = max_length
-        self.batch_size = batch_size
+        # CPU is the target (batch 1 is fastest there). LITMUS_DEVICE=cuda and
+        # LITMUS_BATCH_SIZE=16 only speed up one-off bulk jobs such as the benchmark run;
+        # the model and precision (fp32) are identical, so results are the same.
+        self.device = device or os.environ.get("LITMUS_DEVICE", "cpu")
+        self.batch_size = batch_size or int(os.environ.get("LITMUS_BATCH_SIZE", "1"))
         self.backend = backend
         self.threads = threads
         self.cache = VectorCache(cache_path)
@@ -123,7 +128,7 @@ class Embedder:
                     if self.backend == "torch":
                         kwargs["model_kwargs"] = {"dtype": torch.float32}  # bf16 is emulated on most CPUs
                     m = SentenceTransformer(
-                        self.model_name, device="cpu", backend=self.backend,
+                        self.model_name, device=self.device, backend=self.backend,
                         revision=self.revision, trust_remote_code=False, **kwargs)
                     m.max_seq_length = self.max_length
                     self._model = m

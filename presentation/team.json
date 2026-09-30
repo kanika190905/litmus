@@ -1,13 +1,11 @@
 {
-  "theme_id": "[TO FILL]",
+  "theme_id": "",
   "team_name": "Code Alchemist",
-  "college": "[TO FILL]",
+  "college": "Thapar Institute Of Engineering and Technology",
   "members": [
-    "[TO FILL]",
-    "[TO FILL]",
-    "[TO FILL]",
-    "[TO FILL]"
+    "Kanika Sahni , ksahni_be24@thapar.edu",
+    "Abhinandan Wadhwa , awadhwa_be24@thapar.edu"
   ],
-  "github_url": "[TO FILL]",
-  "video_url": "[TO FILL]"
+  "github_url": "https://github.com/kanika190905/litmus",
+  "video_url": "https://github.com/kanika190905/litmus/blob/main/demo/Video%20Project.mp4"
 }

@@ -23,6 +23,16 @@ import threading
 import time
 import warnings
 
+if os.name != "nt":  # POSIX memory cap (Windows uses a Job Object set by the parent)
+    try:
+        import resource
+
+        _cap = int(os.environ.get("LITMUS_SANDBOX_MEM_BYTES", "0"))
+        if _cap > 0:
+            resource.setrlimit(resource.RLIMIT_AS, (_cap, _cap))
+    except (ImportError, ValueError, OSError):
+        pass
+
 _CH_IN = os.dup(0)
 _CH_OUT = os.dup(1)
 _WORKDIR = os.path.realpath(sys.argv[1])

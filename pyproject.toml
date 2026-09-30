@@ -7,7 +7,7 @@ name = "litmus-retrieval"
 version = "1.0.0"
 description = "Litmus: execution-verified, version-aware code retrieval (Samsung PRISM GenAI Hackathon, Theme 1)"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = [
     "torch>=2.4",

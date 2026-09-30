@@ -1,0 +1,16 @@
+{
+  "source": "Public MTEB results repository (github.com/embeddings-benchmark/results), AppsRetrieval test split, snapshot of 2026-09-30",
+  "note": "Published scores of embedding models (search only). Litmus rows are our own official mteb.evaluate outputs in this folder.",
+  "entries_in_snapshot": 236,
+  "ndcg_at_10": {
+    "google/gemini-embedding-2-preview (API)": 0.9862,
+    "mongodb/voyage-4-large (API)": 0.9746,
+    "codefuse-ai/F2LLM-v2-14B": 0.9719,
+    "codefuse-ai/F2LLM-v2-8B": 0.9644,
+    "codefuse-ai/F2LLM-v2-4B": 0.9610,
+    "nvidia/Nemotron-3-Embed-8B": 0.9592,
+    "codefuse-ai/F2LLM-v2-0.6B": 0.9045,
+    "openai/text-embedding-3-large (API)": 0.2846,
+    "BM25 (mteb baseline)": 0.0476
+  }
+}

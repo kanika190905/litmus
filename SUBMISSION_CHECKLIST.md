@@ -1,29 +1,29 @@
-# Submission checklist (Samsung PRISM GenAI Hackathon, Theme 1)
+# Submission checklist (Samsung PRISM GenAI Hackathon, Theme 1) - Team Code Alchemist
 
-| Item | Status | Where / what remains |
+| Item | Status | Where |
 |---|---|---|
-| **Source code** | Ready | `src/litmus`, `scripts/`, `tests/`; `pytest -q` passes (16 tests) |
+| **Source code** | Ready | `src/litmus`, `scripts/`, `tests/` (16 tests pass) |
 | **README** (reproducible setup) | Ready | `README.md` |
-| **Presentation** (official template) | Ready, team fields to fill | `presentation/Litmus_PRISM_Submission.pptx` (+ PDF). Put your Theme ID, team, college, members, GitHub and video links in `presentation/team.json`, then run `python presentation/build_deck.py`. It saves `presentation/<College>_<Team>_Submission.pptx`, following the template's naming. Export that to PDF from PowerPoint |
-| **Demo video** (max 5 min) | **Team to record** | Follow `docs/DEMO_SCRIPT.md`; upload to YouTube/Drive; put the link in README + slide 11 |
+| **Presentation** (official template) | Ready | `presentation/Litmus_PRISM_Submission.pptx` + `.pdf` (team details from `presentation/team.json`) |
+| **Demo video** (max 5 min) | Ready (48 s) | `demo/Video Project.mp4` |
 | **AI disclosure** | Ready | `AI_DISCLOSURE.md` |
-| **APK / SDK** | **N/A** | Python package + local web app; there is no mobile or SDK component |
-| **Tag / Release** | Prepared locally | git tag `v1.0.0`. After pushing: create a GitHub Release from the tag and attach the files below |
-| **MTEB result JSON** (screening) | **Pending** | Run `python scripts/run_mteb_eval.py` (~6-7 h on a laptop CPU, resumable). Attach `results/appsretrieval_results.json` to the release. Do **not** submit subset numbers as the official score |
-| Other: measured results | Ready | `results/subset_eval.json`, `results/subset_rankings.csv`, `results/evolution_eval.json`, `results/versioning.json` |
+| **APK / SDK** | **N/A** | Python package + local web app; no mobile or SDK component |
+| **Official MTEB result JSON** (screening) | Ready | `results/appsretrieval_results.json` (Litmus, NDCG@10 0.9669) and `results/appsretrieval_results_dense.json` (dense baseline, 0.9032) |
+| **Tag / Release** | Create on GitHub | Release `v1.0.0` with the files listed below |
+| Other: measured results | Ready | `results/` (subset, evolution, versioning, feasibility, MTEB smoke test) |
 
-## Release assets to attach (GitHub → Releases → Draft new release → tag `v1.0.0`)
+Repository: https://github.com/kanika190905/litmus
 
-1. `results/appsretrieval_results.json` (official MTEB output, once the run completes)
-2. `results/appsretrieval_responses.csv` (per-query top-10, produced by the same run)
-3. `presentation/Litmus_PRISM_Submission.pdf`
-4. `results/subset_eval.json`, `results/evolution_eval.json`, `results/versioning.json`, `results/exec_feasibility.json`, `results/mteb_smoke_subset.json`
-5. `dist/litmus_demo_cache.zip` (7.4 MB prebuilt demo index: unzip in the repo root and run `litmus serve` without waiting for embeddings)
+## GitHub release (Releases → Draft a new release)
 
-## Push commands (after creating an empty public repo on GitHub)
+* Tag: `v1.0.0` (choose "create new tag on publish"). Title: `Litmus v1.0.0 - Team Code Alchemist`
+* Attach:
+  1. `results/appsretrieval_results.json` (the official screening file)
+  2. `results/appsretrieval_results_dense.json`
+  3. `presentation/Litmus_PRISM_Submission.pdf`
+  4. `litmus_demo_cache.zip` (prebuilt demo index: unzip in the repo root, then `run_demo.bat` or `litmus serve`)
 
-```bash
-git remote add origin https://github.com/<your-account>/<repo>.git
-git push -u origin main
-git push origin v1.0.0
-```
+## Still to confirm
+
+* **Theme ID** on slide 1 is blank. If you have one, put it in `presentation/team.json` (`theme_id`), then run
+  `python presentation/build_deck.py --out presentation/Litmus_PRISM_Submission.pptx`.

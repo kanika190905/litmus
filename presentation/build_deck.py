@@ -169,23 +169,28 @@ def build(template: str, out: str) -> None:
     evo = load("evolution_eval.json")
     ver = load("versioning.json")
     mteb_full = load("appsretrieval_results.json")
+    mteb_dense = load("appsretrieval_results_dense.json")
     feas = load("exec_feasibility.json")
 
     # 1. Title - fill the template's own fields (placeholders for team data)
     s = S[0]
     for sh in s.shapes:
         if sh.has_text_frame and "Theme ID" in sh.text_frame.text:
-            m = (TEAM.get("members") or []) + [FILL] * 4
+            members = TEAM.get("members") or [FILL] * 4
+            m = members + [None] * 4
+            tid = TEAM.get("theme_id", FILL)
             fills = {
-                "Theme ID": " %s (Theme 1: Agentic Code Intelligence)" % TEAM.get("theme_id", FILL),
+                "Theme ID": (" %s (Theme 1: Agentic Code Intelligence)" % tid) if tid else " (Theme 1: Agentic Code Intelligence)",
                 "Team Name": " " + TEAM.get("team_name", FILL), "College Name": " " + TEAM.get("college", FILL),
-                "Member Name & Email 1": " " + m[0], "Member Name & Email 2": " " + m[1],
-                "Member Name & Email 3": " " + m[2], "Member Name & Email 4": " " + m[3],
+                "Member Name & Email 1": " " + m[0] if m[0] else None, "Member Name & Email 2": " " + m[1] if m[1] else None,
+                "Member Name & Email 3": " " + m[2] if m[2] else None, "Member Name & Email 4": " " + m[3] if m[3] else None,
                 "Submission Github link": " " + TEAM.get("github_url", FILL),
             }
-            for p in sh.text_frame.paragraphs:
+            for p in list(sh.text_frame.paragraphs):
                 key = p.text.strip().rstrip("-").strip()
-                if key in fills and p.runs:
+                if key in fills and fills[key] is None:  # member slot the team does not use
+                    p._p.getparent().remove(p._p)
+                elif key in fills and p.runs:
                     p.runs[-1].text = p.runs[-1].text.rstrip() + fills[key]
             p = sh.text_frame.add_paragraph()
             r = p.add_run()
@@ -220,6 +225,9 @@ def build(template: str, out: str) -> None:
             ("Code-aware embedders, CPU-size (F2LLM-v2-0.6B)", "0.905", "ranks by similarity: a one-token bug looks identical"),
             ("Large embedders / APIs (F2LLM-v2-8B, Gemini-embedding-2)", "0.964 / 0.986", "4-14B params or cloud API - not CPU / on-device"),
             ("LLM re-ranking", "-", "slow, context-limited, needs GPU (per the theme brief)")]
+    if mteb_full:
+        rows.append(("Litmus (ours): F2LLM-v2-0.6B + execution verification, CPU", "%.3f" % mteb_full["scores"]["test"][0]["ndcg_at_10"],
+                     "official run; above every published model up to 8B"))
     tbl = s.shapes.add_table(len(rows), 3, Inches(0.75), Inches(1.75), Inches(11.8), Inches(3.0)).table
     widths = [5.2, 1.6, 5.0]
     for j, wv in enumerate(widths):
@@ -231,12 +239,13 @@ def build(template: str, out: str) -> None:
             para = c.text_frame.paragraphs[0]
             para.runs[0].font.size = Pt(13 if i else 13)
             para.runs[0].font.name = "Calibri"
-            para.runs[0].font.bold = i == 0
-            para.runs[0].font.color.rgb = RGBColor(255, 255, 255) if i == 0 else INK
+            ours = row[0].startswith("Litmus (ours)")
+            para.runs[0].font.bold = i == 0 or ours
+            para.runs[0].font.color.rgb = RGBColor(255, 255, 255) if i == 0 else (PURPLE if ours else INK)
             c.fill.solid()
-            c.fill.fore_color.rgb = PURPLE if i == 0 else (TINT if i % 2 else RGBColor(255, 255, 255))
+            c.fill.fore_color.rgb = PURPLE if i == 0 else (RGBColor(0xE6, 0xDC, 0xF5) if ours else (TINT if i % 2 else RGBColor(255, 255, 255)))
     body(s).text_frame.text = ""
-    body(s).left, body(s).top, body(s).width, body(s).height = Inches(0.75), Inches(4.95), Inches(11.8), Inches(1.9)
+    body(s).left, body(s).top, body(s).width, body(s).height = Inches(0.75), Inches(5.45), Inches(11.8), Inches(1.35)
     write_body(s, [
         "Common gap: every approach ranks by similarity only - none checks whether a snippet actually does what the query asks",
         "Versions: near-duplicate snippets (Bonus) are indistinguishable to embeddings; indexes are usually rebuilt from scratch per version (P1)",
@@ -279,7 +288,7 @@ def build(template: str, out: str) -> None:
         ("Execution sandbox", ["persistent Python worker pool", "PEP 578 audit hooks, fd redirection", "Job Objects / RLIMIT_AS, watchdog"]),
         ("Versioned storage", ["content-addressed SQLite caches", "JSON manifests (git-tree style)", "ingest: dir, JSONL, git ref, AST chunks"]),
         ("Product", ["FastAPI + Uvicorn API", "single-page web UI (no build step)", "`litmus` CLI"]),
-        ("Engineering", ["pytest suite (fake embedder)", "Python 3.12, Windows + Linux", "Claude Code as AI pair-engineer (see AI disclosure)"]),
+        ("Engineering", ["pytest suite (fake embedder)", "Python 3.12, Windows + Linux", "Kaggle GPU for the one-off official benchmark run"]),
     ]
     for i, (t, ls) in enumerate(cards6):
         card(s, 0.75 + (i % 3) * 4.0, 1.8 + (i // 3) * 2.45, 3.75, 2.2, t, ls, size=15, title_size=18,
@@ -295,7 +304,11 @@ def build(template: str, out: str) -> None:
         "Explainable ranking: every result shows the evidence (outputs vs expected), not just a score",
     ], size=16, box=(Inches(0.75), Inches(1.75), Inches(7.4), Inches(5.0)))
     y = 1.85
-    if sub and "dense_only" in sub["runs"]:
+    if mteb_full and mteb_dense:
+        stat(s, 8.6, y, 4.2, "%.3f -> %.3f" % (mteb_dense["scores"]["test"][0]["ndcg_at_10"], mteb_full["scores"]["test"][0]["ndcg_at_10"]),
+             "official NDCG@10 on the full test split: same 0.6B model alone -> with Litmus")
+        y += 1.3
+    elif sub and "dense_only" in sub["runs"]:
         d, l = sub["runs"]["dense_only"], sub["runs"].get("verify_top20_expand30 (Litmus)")
         if l:
             stat(s, 8.6, y, 4.2, "%.3f -> %.3f" % (d["mrr_at_10"], l["mrr_at_10"]), "MRR@10 on the representative subset (dense -> Litmus)")
@@ -314,22 +327,25 @@ def build(template: str, out: str) -> None:
     s = S[7]
     body(s).text_frame.text = ""
     body(s).width = Inches(0.1)
-    if fig("subset_results.png"):
+    if fig("official_results.png") and mteb_full:
+        picture(s, fig("official_results.png"), 0.6, 1.65, w=6.3)
+    elif fig("subset_results.png"):
         picture(s, fig("subset_results.png"), 0.6, 1.65, w=6.3)
     if fig("evolution_results.png"):
         picture(s, fig("evolution_results.png"), 6.95, 1.65, w=6.0)
     lim = [
-        "Official full-corpus MTEB JSON: %s" % ("NDCG@10 %.4f / MRR@10 %.4f" % (
-            mteb_full["scores"]["test"][0]["ndcg_at_10"], mteb_full["scores"]["test"][0]["mrr_at_10"]) if mteb_full else "pending (~6-7 h CPU run; script ready)"),
-        "Subset corpus (1,000 snippets) is easier than the full 8,765 - compare stages, not leaderboard",
-        "Fusion weights are hand-set priors, not fitted; queries without sample tests fall back to dense ranking",
+        ("Official full test split: NDCG@10 %.4f / MRR@10 %.4f (dense-only %.4f). Embedding for this one-off run used a Kaggle GPU; same fp32 model, the system itself runs on CPU" % (
+            mteb_full["scores"]["test"][0]["ndcg_at_10"], mteb_full["scores"]["test"][0]["mrr_at_10"],
+            mteb_dense["scores"]["test"][0]["ndcg_at_10"] if mteb_dense else float("nan"))) if mteb_full else "Official full-corpus MTEB JSON: pending",
+        "Leaderboard models are search-only; Litmus adds a verification step, so it is a pipeline, not a single embedding model",
+        "Fusion weights are hand-set priors (not fitted); queries without sample tests fall back to dense ranking",
     ]
     card(s, 0.75, 5.25, 11.9, 1.7, "Limitations (honest)", lim, color=GREY, size=12, title_size=14)
 
     # 9. What's next
     s = S[8]
     write_body(s, [
-        "Official score: finish the full-corpus MTEB run and publish the JSON in the GitHub release",
+        "Multiple-answer problems: task-specific checkers so 'print any valid answer' solutions can pass",
         "Learned fusion: fit the evidence weights on the CoIR train split (5,000 queries) instead of hand-set priors",
         "More evidence: function-level harnesses (Solution().method calls) and generated extra test inputs",
         "Diff-aware queries: 'which commit changed the parsing of X?' using version deltas",
@@ -373,7 +389,7 @@ def build(template: str, out: str) -> None:
                 r.font.bold = True
                 r.font.color.rgb = PURPLE
     extra = [("AI disclosure (AI_DISCLOSURE.md)", "Y"), ("APK / SDK", "N/A - Python package + web app, no mobile component"),
-             ("Release tag v1.0.0 + MTEB result JSON", "tag prepared; JSON " + ("attached" if mteb_full else "pending"))]
+             ("Release v1.0.0 + MTEB result JSON", ("Y - results/appsretrieval_results.json" if mteb_full else "JSON pending"))]
     for k, v in extra:
         p = tf.add_paragraph()
         r = p.add_run()
@@ -392,14 +408,5 @@ if __name__ == "__main__":
     ap.add_argument("--template", default=os.path.join(os.path.dirname(ROOT), "CollegeName_TeamName_Submission.pptx"))
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
-    out = a.out
-    if out is None:
-        # The official template is named CollegeName_TeamName_Submission.pptx; follow that
-        # convention as soon as presentation/team.json has the real names.
-        college, team = TEAM.get("college", FILL), TEAM.get("team_name", FILL)
-        if FILL not in (college, team):
-            clean = lambda x: "".join(ch for ch in x.title() if ch.isalnum())
-            out = os.path.join(ROOT, "presentation", "%s_%s_Submission.pptx" % (clean(college), clean(team)))
-        else:
-            out = os.path.join(ROOT, "presentation", "Litmus_PRISM_Submission.pptx")
+    out = a.out or os.path.join(ROOT, "presentation", "Litmus_PRISM_Submission.pptx")
     build(a.template, out)

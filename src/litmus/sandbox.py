@@ -117,17 +117,6 @@ def _windows_job(memory_bytes: int):
     return assign
 
 
-def _posix_preexec(memory_bytes: int):  # pragma: no cover - exercised on Linux/macOS
-    def preexec():
-        import resource
-        try:
-            resource.setrlimit(resource.RLIMIT_AS, (memory_bytes, memory_bytes))
-        except (ValueError, OSError):
-            pass
-        os.setsid()
-    return preexec
-
-
 # --------------------------------------------------------------------------- #
 # Worker process handle
 # --------------------------------------------------------------------------- #
@@ -135,7 +124,11 @@ def _posix_preexec(memory_bytes: int):  # pragma: no cover - exercised on Linux/
 class _Worker:
     def __init__(self, python: str, memory_bytes: int, assign):
         self.workdir = tempfile.mkdtemp(prefix="litmus_w_")
-        env = {"PYTHONIOENCODING": "utf-8", "PYTHONDONTWRITEBYTECODE": "1", "PYTHONHASHSEED": "0"}
+        env = {"PYTHONIOENCODING": "utf-8", "PYTHONDONTWRITEBYTECODE": "1", "PYTHONHASHSEED": "0",
+               # single-threaded numeric libraries: no CPU oversubscription across workers and
+               # small per-thread buffers (matters under the POSIX address-space cap)
+               "OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
+               "LITMUS_SANDBOX_MEM_BYTES": str(memory_bytes)}
         for k in ("SYSTEMROOT", "TEMP", "TMP", "PATH", "HOME", "USERPROFILE"):
             if k in os.environ:
                 env[k] = os.environ[k]
@@ -143,8 +136,8 @@ class _Worker:
                       cwd=self.workdir, env=env, bufsize=0)
         if os.name == "nt":
             kwargs["creationflags"] = 0x08000000  # CREATE_NO_WINDOW
-        else:  # pragma: no cover
-            kwargs["preexec_fn"] = _posix_preexec(memory_bytes)
+        else:  # pragma: no cover - POSIX: new session; the worker caps its own memory
+            kwargs["start_new_session"] = True
         self.proc = subprocess.Popen([python, "-I", "-X", "utf8", _WORKER, self.workdir], **kwargs)
         if assign is not None:
             try:

@@ -32,9 +32,11 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dense-only", action="store_true")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--workers", type=int, default=None, help="sandbox worker processes (default: CPUs - 2)")
     args = ap.parse_args()
 
-    model = PrePostPipelineEncoder() if args.dense_only else LitmusSearch()
+    model = PrePostPipelineEncoder() if args.dense_only else LitmusSearch(workers=args.workers)
+    print("embedding device:", os.environ.get("LITMUS_DEVICE", "cpu"), flush=True)
     task = mteb.get_task("AppsRetrieval")
     t0 = time.time()
     result = mteb.evaluate(model, [task], encode_kwargs={"batch_size": 64}, overwrite_strategy="always",

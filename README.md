@@ -2,6 +2,12 @@
 
 **Samsung PRISM Generative AI Hackathon 2026-27, Theme 1: Agentic Code Intelligence**
 
+**Team Code Alchemist** (Thapar Institute of Engineering and Technology): Kanika Sahni, Abhinandan Wadhwa
+· Demo video: [`demo/Video Project.mp4`](demo/Video%20Project.mp4)
+
+> **Official result (MTEB AppsRetrieval, full test split):** NDCG@10 **0.9669**, MRR@10 **0.9604**,
+> versus 0.9032 / 0.8828 for the same 0.6B embedding model without verification (see section 1.1).
+
 > Given a library of code and a natural-language query, rank the code snippets by relevance.
 > Runs on CPU. Supports retrieval over any version of the code base (P1) and across all
 > versions (Bonus).
@@ -22,7 +28,20 @@ that are textually almost identical often *behave* differently.
 
 <!-- RESULTS:START -->
 ### 1.1 Official screening metric (MTEB AppsRetrieval, full test split)
-**Pending, not executed yet.** The full run embeds 8,765 snippets plus 3,765 long queries on CPU (~6-7 h on an i5-13500H laptop). Command: `python scripts/run_mteb_eval.py`. It is resumable, and the output (`results/appsretrieval_results.json`) is attached to the GitHub release when it finishes. For reference, the published score of the dense model we build on (F2LLM-v2-0.6B) is NDCG@10 0.9045 / MRR@10 0.8840.
+Produced by `mteb.evaluate` (`scripts/run_mteb_eval.py`) on all 3,765 test queries against all 8,765 snippets. The files are in `results/` and attached to the v1.0.0 release.
+
+| system | NDCG@10 | MRR@10 | Recall@1 | Recall@10 |
+|---|---|---|---|---|
+| F2LLM-v2-0.6B dense only (`PrePostPipelineEncoder`, guideline template) | 0.9032 | 0.8828 | 0.8303 | 0.9649 |
+| **Litmus: dense + execution verification (`LitmusSearch`)** | **0.9669** | **0.9604** | **0.9408** | **0.9862** |
+
+The dense-only run reproduces the published score of the same model (0.9045), which validates the setup. Verification lifts NDCG@10 by +0.0637 and cuts top-1 errors from 17.0% to 5.9%.
+
+**Context.** In the public MTEB results repository (236 AppsRetrieval entries, snapshot 2026-09-30), the only entries above 0.9669 are google/gemini-embedding-2-preview (API) (0.9862), mongodb/voyage-4-large (API) (0.9746), codefuse-ai/F2LLM-v2-14B (0.9719). Litmus scores above F2LLM-v2-8B (0.9644) and F2LLM-v2-4B (0.9610) while using the 0.6B model. Leaderboard entries are single embedding models; Litmus is a retrieval pipeline (embedding + verification), so the comparison is informative rather than like-for-like.
+
+*Hardware note:* to finish the one-off bulk embedding (about 12.5k texts) quickly, this run used a free Kaggle T4 GPU (`kaggle/litmus_official_eval.ipynb`). The model and fp32 precision are the same as on CPU, the sandbox ran on the CPU, and the product itself targets CPU (the demo runs entirely on a laptop CPU).
+
+<p align="center"><img src="docs/figures/official_results.png" width="70%"></p>
 
 The official MTEB code path was verified end-to-end on the subset below (`scripts/smoke_mteb.py`, NDCG@10 0.9888, MRR@10 0.9867, produced by `mteb.evaluate`). This is a smoke test, not the screening score.
 
@@ -235,6 +254,12 @@ python scripts/run_mteb_eval.py --dense-only   # official template with an AbsEn
 python docs/make_figures.py          # charts from results/*.json
 ```
 
+**Faster official run on a free Kaggle GPU:** upload `dist/litmus_source.zip` (or point
+`REPO_URL` at this repository) into `kaggle/litmus_official_eval.ipynb`, enable GPU + Internet,
+and choose *Run All* (~45-75 min). The GPU only accelerates this one-off bulk embedding. The
+model and fp32 precision are unchanged, so the numbers match a CPU run. The product itself
+targets CPU (`LITMUS_DEVICE` defaults to `cpu`).
+
 `run_mteb_eval.py` follows the guideline template (`mteb.get_task("AppsRetrieval")` →
 `mteb.evaluate` → `task_result.to_dict()`). The full pipeline is passed to MTEB as a
 `SearchProtocol` model, the same interface MTEB's own BM25 baseline uses, so MTEB computes
@@ -269,7 +294,8 @@ presentation/         final PPT (Samsung PRISM template)
 
 ## 7. Limitations
 
-* **Official full-corpus MTEB score: pending.** See section 1.
+* The official run's bulk embedding used a Kaggle GPU for speed (same fp32 model). A pure-CPU
+  run of the same command takes ~6-7 h on a laptop; it was not repeated end-to-end on CPU.
 * The subset corpus (1,000 snippets) is easier than the full corpus (8,765), so subset
   NDCG is not comparable with the leaderboard. The *relative* gain on identical queries is
   what it shows.
