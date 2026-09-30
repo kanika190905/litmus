@@ -389,7 +389,7 @@ def build(template: str, out: str) -> None:
                 r.font.bold = True
                 r.font.color.rgb = PURPLE
     extra = [("AI disclosure (AI_DISCLOSURE.md)", "Y"), ("APK / SDK", "N/A - Python package + web app, no mobile component"),
-             ("Release v1.0.0 + MTEB result JSON", ("Y - results/appsretrieval_results.json" if mteb_full else "JSON pending"))]
+             ("Tag PRISM_GENAI_HACKATHON_Y2026 + release with MTEB JSON", ("Y" if mteb_full else "JSON pending"))]
     for k, v in extra:
         p = tf.add_paragraph()
         r = p.add_run()

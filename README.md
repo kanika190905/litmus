@@ -28,7 +28,7 @@ that are textually almost identical often *behave* differently.
 
 <!-- RESULTS:START -->
 ### 1.1 Official screening metric (MTEB AppsRetrieval, full test split)
-Produced by `mteb.evaluate` (`scripts/run_mteb_eval.py`) on all 3,765 test queries against all 8,765 snippets. The files are in `results/` and attached to the v1.0.0 release.
+Produced by `mteb.evaluate` (`scripts/run_mteb_eval.py`) on all 3,765 test queries against all 8,765 snippets. The files are in `results/` and attached to the GitHub release `PRISM_GENAI_HACKATHON_Y2026`.
 
 | system | NDCG@10 | MRR@10 | Recall@1 | Recall@10 |
 |---|---|---|---|---|
@@ -206,7 +206,8 @@ Tested on Windows 11, Python 3.12, CPU only (Intel i5-13500H, 16 GB RAM).
 python -m venv .venv
 # Windows: .venv\Scripts\activate    Linux/macOS: source .venv/bin/activate
 pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install -e .[dev]
+pip install -r requirements.txt              # dependencies
+pip install -e .[dev]                        # the litmus package + `litmus` command
 pytest -q                                   # 16 tests, ~10 s, no model download needed
 ```
 

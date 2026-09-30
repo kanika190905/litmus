@@ -23,7 +23,7 @@ def main() -> None:
     if full:
         f = full["scores"]["test"][0]
         out.append("Produced by `mteb.evaluate` (`scripts/run_mteb_eval.py`) on all 3,765 test queries against "
-                   "all 8,765 snippets. The files are in `results/` and attached to the v1.0.0 release.\n\n")
+                   "all 8,765 snippets. The files are in `results/` and attached to the GitHub release `PRISM_GENAI_HACKATHON_Y2026`.\n\n")
         out.append("| system | NDCG@10 | MRR@10 | Recall@1 | Recall@10 |\n|---|---|---|---|---|\n")
         if dense:
             d = dense["scores"]["test"][0]
