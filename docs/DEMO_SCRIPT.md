@@ -6,9 +6,11 @@
 2. Open a terminal (PowerShell) and run exactly:
    ```powershell
    cd "C:\Users\abhin\OneDrive\Desktop\samsung prism\litmus"
-   C:\Users\abhin\.venvs\prism\Scripts\activate
-   litmus serve
+   C:\Users\abhin\.venvs\prism\Scripts\litmus.exe serve
    ```
+   (Full path to the exe: no environment activation needed, so PowerShell's script policy
+   cannot block it. For the CLI part, use `C:\Users\abhin\.venvs\prism\Scripts\litmus.exe`
+   the same way.)
 3. **Wait ~45 s** (it loads the model and warms the sandbox and the version views).
 4. Open `http://127.0.0.1:8000` in a browser at 100% zoom, full-screen (F11).
 5. Run one throw-away search first, so the query shows real steady-state timings on camera.
