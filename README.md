@@ -226,7 +226,7 @@ vectors, execution cache and the two demo stores), then run `litmus serve`.
 python scripts/embed_subset.py          # embeds the representative subset (~25 min on a laptop CPU)
 python scripts/build_demo.py            # creates store 'apps-demo' + demo/sample_queries.json
 
-# 2. web demo
+# 2. web demo (walkthrough: docs/DEMO.md)
 litmus serve                            # http://127.0.0.1:8000
 
 # 3. CLI
@@ -288,7 +288,7 @@ src/litmus/
 scripts/              embedding, demo store, evaluations, official MTEB run
 tests/                pytest suite (fake embedder: no model download)
 results/              measured results (JSON/CSV)
-docs/                 figures, demo script, screenshots
+docs/                 figures, demo walkthrough (DEMO.md), screenshots
 presentation/         final PPT (Samsung PRISM template)
 ```
 
